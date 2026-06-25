@@ -1,0 +1,544 @@
+/* ==========================================================================
+   1. CORE RESET & DESIGN SYSTEM VARIABLES
+   ========================================================================== */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    -webkit-font-smoothing: antialiased;
+}
+
+:root {
+    --bg-dark: #111111;
+    --bg-white: #ffffff;
+    --border-light: rgba(17, 17, 17, 0.08);
+    --border-hover: rgba(17, 17, 17, 0.15);
+    --shadow-subtle: 0 4px 12px rgba(0, 0, 0, 0.03);
+    --shadow-medium: 0 8px 24px rgba(0, 0, 0, 0.06);
+    --radius-card: 12px;
+    --radius-pill: 30px;
+    --transition-smooth: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    
+    /* Card Aesthetics */
+    --color-goal: #93c5fd;  /* Soft Blue */
+    --color-task: #ffffff;  /* Minimal Paper White */
+    --color-note: #ffee8c;  /* Soft Note Yellow */
+}
+
+body {
+    background-color: var(--bg-white);
+    color: var(--bg-dark);
+    min-height: 100vh;
+    overflow-x: hidden;
+    transition: background var(--transition-smooth);
+}
+
+/* Atmospheric Ambient Sky-Gradient zoning rules for Home state active */
+body.home-active {
+    background: linear-gradient(to bottom, #59b2ec 0%, #aadefa 50%, #eaf6fc 100%);
+}
+
+/* ==========================================================================
+   2. FIXED NAVIGATION CRUST
+   ========================================================================== */
+.navbar {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    height: 60px;
+    background: rgba(255, 255, 255, 0.85);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border-light);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 24px;
+    z-index: 100;
+}
+
+.brand-toggle-btn {
+    background: none;
+    border: none;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+    color: var(--bg-dark);
+}
+
+.app-title {
+    font-size: 18px;
+    font-weight: 600;
+    letter-spacing: -0.3px;
+}
+
+.nav-links {
+    display: flex;
+    gap: 8px;
+    background: rgba(17, 17, 17, 0.04);
+    padding: 4px;
+    border-radius: var(--radius-pill);
+}
+
+.nav-item {
+    background: none;
+    border: none;
+    padding: 6px 18px;
+    font-size: 14px;
+    font-weight: 500;
+    color: #555555;
+    border-radius: var(--radius-pill);
+    cursor: pointer;
+    transition: var(--transition-smooth);
+}
+
+.nav-item.active, .nav-item:hover {
+    background: var(--bg-white);
+    color: var(--bg-dark);
+    box-shadow: var(--shadow-subtle);
+}
+
+.status-indicator {
+    font-size: 12px;
+    color: #666666;
+    background: rgba(17, 17, 17, 0.05);
+    padding: 4px 12px;
+    border-radius: var(--radius-pill);
+}
+
+/* ==========================================================================
+   3. WORKSPACE CONTAINER ROUTING PANELS
+   ========================================================================== */
+.workspace-container {
+    margin-top: 60px;
+    padding: 32px 24px;
+    min-height: calc(100vh - 220px);
+}
+
+.view-panel {
+    display: none;
+}
+
+.view-panel.active {
+    display: block;
+}
+
+.module-header-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 24px;
+}
+
+.module-header-row h2 {
+    font-size: 24px;
+    font-weight: 600;
+    letter-spacing: -0.5px;
+}
+
+/* ==========================================================================
+   4. MODULE: TASKLY PIPELINE
+   ========================================================================== */
+.taskly-matrix {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    align-items: start;
+}
+
+.taskly-column {
+    background: rgba(17, 17, 17, 0.02);
+    border: 1px solid var(--border-light);
+    border-radius: var(--radius-card);
+    padding: 16px;
+    min-height: 500px;
+}
+
+.column-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 16px;
+}
+
+.column-header h3 {
+    font-size: 15px;
+    font-weight: 600;
+    color: #444444;
+}
+
+.instant-create-btn {
+    background: none;
+    border: none;
+    font-size: 18px;
+    cursor: pointer;
+    color: #777777;
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    transition: var(--transition-smooth);
+}
+
+.instant-create-btn:hover {
+    background: rgba(17, 17, 17, 0.05);
+    color: var(--bg-dark);
+}
+
+.task-list-slot {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    min-height: 450px;
+}
+
+/* ==========================================================================
+   5. MODULE: BOARDLY WHITEBOARD CANVAS
+   ========================================================================== */
+.boardly-nav-left {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+    width: 100%;
+}
+
+.tabs-wrapper {
+    overflow-x: auto;
+    scrollbar-width: none;
+}
+.tabs-wrapper::-webkit-scrollbar { display: none; }
+
+.tabs {
+    display: flex;
+    gap: 6px;
+}
+
+.board-tab {
+    background: rgba(17, 17, 17, 0.04);
+    border: none;
+    padding: 6px 14px;
+    border-radius: var(--radius-pill);
+    font-size: 13px;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: var(--transition-smooth);
+}
+.board-tab.active {
+    background: var(--bg-dark);
+    color: var(--bg-white);
+}
+
+.add-tab-inline-btn {
+    background: none;
+    border: 1px dashed var(--border-light);
+    padding: 5px 12px;
+    border-radius: var(--radius-pill);
+    font-size: 12px;
+    cursor: pointer;
+}
+
+/* Core Absolute Whiteboard Canvas Layout Frame */
+.boardly-spatial-canvas {
+    position: relative;
+    width: 100%;
+    height: 65vh;
+    background: #fafafa;
+    background-image: radial-gradient(rgba(17, 17, 17, 0.05) 1px, transparent 0);
+    background-size: 24px 24px;
+    border: 1px solid var(--border-light);
+    border-radius: var(--radius-card);
+    overflow: auto;
+}
+
+.boardly-floating-actions {
+    position: absolute;
+    bottom: 24px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--bg-white);
+    padding: 8px 16px;
+    border-radius: var(--radius-pill);
+    box-shadow: var(--shadow-medium);
+    display: flex;
+    gap: 12px;
+    z-index: 10;
+}
+
+.spawn-card-btn {
+    border: 1px solid var(--border-light);
+    padding: 6px 14px;
+    border-radius: var(--radius-pill);
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+/* ==========================================================================
+   6. MODULE: TIMELY STRUCTURAL VIEWS
+   ========================================================================== */
+.timely-view-selector {
+    display: flex;
+    gap: 4px;
+    background: rgba(17, 17, 17, 0.04);
+    padding: 2px;
+    border-radius: var(--radius-pill);
+}
+
+.timely-sub-btn {
+    background: none;
+    border: none;
+    padding: 4px 12px;
+    font-size: 12px;
+    border-radius: var(--radius-pill);
+    cursor: pointer;
+}
+.timely-sub-btn.active {
+    background: var(--bg-white);
+    box-shadow: var(--shadow-subtle);
+}
+
+.timely-frame { display: none; }
+.timely-frame.active { display: block; }
+
+/* Daily 24h Hourly Rows Layout Grid */
+.hourly-time-grid {
+    display: flex;
+    flex-direction: column;
+    border: 1px solid var(--border-light);
+    border-radius: var(--radius-card);
+    background: var(--bg-white);
+    max-height: 55vh;
+    overflow-y: auto;
+}
+
+.hour-row {
+    display: grid;
+    grid-template-columns: 80px 1fr;
+    border-bottom: 1px solid var(--border-light);
+    min-height: 60px;
+}
+.hour-label {
+    padding: 12px;
+    font-size: 12px;
+    color: #777777;
+    border-right: 1px solid var(--border-light);
+    background: #fafafa;
+}
+
+/* Weekly 5-Part Cadence Rows Matrix layout */
+.weekly-cadence-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 16px;
+}
+
+.cadence-slot {
+    background: rgba(17, 17, 17, 0.01);
+    border: 1px solid var(--border-light);
+    border-radius: var(--radius-card);
+    padding: 14px;
+    min-height: 400px;
+}
+.cadence-slot h3 {
+    font-size: 14px;
+    margin-bottom: 12px;
+    color: #555555;
+}
+
+/* Monthly Matrix cellular grid framework styling */
+.monthly-matrix-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 8px;
+}
+
+.monthly-cell {
+    border: 1px solid var(--border-light);
+    border-radius: 8px;
+    min-height: 90px;
+    padding: 8px;
+    background: var(--bg-white);
+}
+.cell-number {
+    font-size: 11px;
+    font-weight: 600;
+    color: #888888;
+}
+
+/* ==========================================================================
+   7. MODULE: BRAINLY KNOWLEDGE VAULT
+   ========================================================================== */
+.create-folder-btn {
+    background: var(--bg-dark);
+    color: var(--bg-white);
+    border: none;
+    padding: 6px 16px;
+    border-radius: var(--radius-pill);
+    font-size: 13px;
+    cursor: pointer;
+}
+
+.brainly-layout-container {
+    display: grid;
+    grid-template-columns: 280px 1fr;
+    gap: 32px;
+}
+
+/* Visual iOS folder grid directory layout structure */
+.folder-nodes-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+    gap: 16px;
+    align-content: start;
+}
+
+.folder-node {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    cursor: pointer;
+    padding: 12px 8px;
+    border-radius: var(--radius-card);
+    transition: var(--transition-smooth);
+}
+.folder-node:hover { background: rgba(17, 17, 17, 0.04); }
+.folder-icon { font-size: 40px; margin-bottom: 6px; }
+.folder-title { font-size: 12px; font-weight: 500; }
+
+.notes-workspace-container {
+    background: #fafafa;
+    border: 1px solid var(--border-light);
+    border-radius: var(--radius-card);
+    padding: 20px;
+}
+
+.notes-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 16px;
+}
+
+.notes-list-view {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 16px;
+}
+
+/* ==========================================================================
+   8. UNIFIED SYSTEM CARDS & INLINE TEXTAREAS
+   ========================================================================== */
+.lifeos-card {
+    background: var(--bg-white);
+    border: 1px solid var(--border-light);
+    border-radius: 10px;
+    padding: 12px;
+    box-shadow: var(--shadow-subtle);
+    cursor: grab;
+    transition: transform 0.1s, box-shadow 0.1s;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+.lifeos-card:active { cursor: grabbing; transform: scale(0.98); }
+
+/* Class targets mapped precisely to structural color parameters */
+.lifeos-card.color-goal { background: var(--color-goal); border: none; }
+.lifeos-card.color-task { background: var(--color-task); }
+.lifeos-card.color-note { background: var(--color-note); border: none; }
+
+/* Abstracted Absolute Coordinate Handling rules for Boardly canvas items */
+.boardly-spatial-canvas .lifeos-card {
+    position: absolute;
+    width: 240px;
+    min-height: 110px;
+    z-index: 2;
+}
+
+.card-inline-textarea {
+    width: 100%;
+    background: transparent;
+    border: none;
+    resize: none;
+    outline: none;
+    font-size: 13px;
+    line-height: 1.4;
+    color: var(--bg-dark);
+}
+
+/* ==========================================================================
+   9. CENTERED SYMMETRICAL DASHBOARD FOOTER
+   ========================================================================== */
+.centered-dashboard-footer {
+    border-top: 1px solid var(--border-light);
+    padding: 24px;
+    background: rgba(255, 255, 255, 0.6);
+    backdrop-filter: blur(8px);
+}
+
+.dashboard-grid-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.panel-card-container {
+    background: var(--bg-white);
+    border: 1px solid var(--border-light);
+    border-radius: var(--radius-card);
+    padding: 16px;
+    box-shadow: var(--shadow-subtle);
+}
+
+.panel-card-container h4 {
+    font-size: 14px;
+    font-weight: 600;
+    color: #555555;
+    margin-bottom: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.panel-scroll-area {
+    height: 120px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+/* ==========================================================================
+   10. GLOBAL UNIFIED TRASH ZONE
+   ========================================================================== */
+.trash-bin-zone {
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    background: #fef2f2;
+    border: 2px dashed #fca5a5;
+    color: #dc2626;
+    padding: 12px 20px;
+    border-radius: var(--radius-card);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 13px;
+    font-weight: 500;
+    z-index: 90;
+    transition: var(--transition-smooth);
+}
+
+.trash-bin-zone.drag-over {
+    background: #fee2e2;
+    border-color: #ef4444;
+    transform: scale(1.05);
+}
