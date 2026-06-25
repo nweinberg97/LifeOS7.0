@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LifeOS</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+</head>
+<body class="home-active">
+
+    <header class="navbar">
+        <div class="nav-left">
+            <button id="lifeos-brand-btn" class="brand-toggle-btn">
+                <div class="atom-logo">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                        <circle cx="12" cy="12" r="2"></circle>
+                        <ellipse cx="12" cy=\"12\" rx=\"9\" ry=\"2.5\" transform=\"rotate(30 12 12)\"></ellipse>
+                        <ellipse cx=\"12\" cy=\"12\" rx=\"8\" ry=\"3\" transform=\"rotate(90 12 12)\"></ellipse>
+                    </svg>
+                </div>
+                <span class="app-title">LifeOS</span>
+            </button>
+        </div>
+
+        <div class="nav-center">
+            <nav class="nav-links">
+                <button class="nav-item active" data-view="taskly">Taskly</button>
+                <button class="nav-item" data-view="boardly">Boardly</button>
+                <button class="nav-item" data-view="timely">Timely</button>
+                <button class="nav-item" data-view="brainly">Brainly</button>
+            </nav>
+        </div>
+
+        <div class="nav-right">
+            <span class="status-indicator">Local Client System Active</span>
+        </div>
+    </header>
+
+    <main class="workspace-container">
+
+        <section id="view-taskly" class="view-panel active">
+            <div class="module-header-row">
+                <h2>Taskly Pipeline</h2>
+            </div>
+            <div class="taskly-matrix">
+                <div class="taskly-column" id="taskly-todo">
+                    <div class="column-header">
+                        <h3>To Do</h3>
+                        <button class="instant-create-btn" data-tool="taskly" data-container="taskly-todo">+</button>
+                    </div>
+                    <div class="task-list-slot"></div>
+                </div>
+                <div class="taskly-column" id="taskly-in-progress">
+                    <div class="column-header">
+                        <h3>In-Progress</h3>
+                        <button class="instant-create-btn" data-tool="taskly" data-container="taskly-in-progress">+</button>
+                    </div>
+                    <div class="task-list-slot"></div>
+                </div>
+                <div class="taskly-column" id="taskly-completed">
+                    <div class="column-header">
+                        <h3>Completed</h3>
+                        <button class="instant-create-btn" data-tool="taskly" data-container="taskly-completed">+</button>
+                    </div>
+                    <div class="task-list-slot"></div>
+                </div>
+            </div>
+        </section>
+
+        <section id="view-boardly" class="view-panel">
+            <div class="module-header-row">
+                <div class="boardly-nav-left">
+                    <h2>Boardly Whiteboard</h2>
+                    <div class="tabs-wrapper">
+                        <div class="tabs" id="boardly-tabs-row"></div>
+                    </div>
+                    <button id="add-board-tab-btn" class="add-tab-inline-btn">+ Tab</button>
+                </div>
+            </div>
+            
+            <main id="board" class="boardly-spatial-canvas"></main>
+
+            <div class="boardly-floating-actions">
+                <button class="spawn-card-btn color-goal" data-card-type="goal"><span class="icon">+</span> Goal</button>
+                <button class="spawn-card-btn color-task" data-card-type="task"><span class="icon">+</span> Task</button>
+                <button class="spawn-card-btn color-note" data-card-type="note"><span class="icon">+</span> Note</button>
+            </div>
+        </section>
+
+        <section id="view-timely" class="view-panel">
+            <div class="module-header-row">
+                <h2>Timely Planner</h2>
+                <div class="timely-view-selector">
+                    <button class="timely-sub-btn active" data-subview="daily">Daily</button>
+                    <button class="timely-sub-btn" data-subview="weekly">Weekly</button>
+                    <button class="timely-sub-btn" data-subview="monthly">Monthly</button>
+                </div>
+            </div>
+
+            <div id="timely-daily-view" class="timely-frame active">
+                <div class="hourly-time-grid">
+                    </div>
+            </div>
+
+            <div id="timely-weekly-view" class="timely-frame">
+                <div class="weekly-cadence-grid">
+                    <div class="cadence-slot" data-cadence="morning"><h3>Morning</h3><div class="slot-bucket"></div></div>
+                    <div class="cadence-slot" data-cadence="noon"><h3>Noon</h3><div class="slot-bucket"></div></div>
+                    <div class="cadence-slot" data-cadence="afternoon"><h3>Afternoon</h3><div class="slot-bucket"></div></div>
+                    <div class="cadence-slot" data-cadence="evening"><h3>Evening</h3><div class="slot-bucket"></div></div>
+                    <div class="cadence-slot" data-cadence="night"><h3>Night</h3><div class="slot-bucket"></div></div>
+                </div>
+            </div>
+
+            <div id="timely-monthly-view" class="timely-frame">
+                <div class="monthly-matrix-grid" id="monthly-grid-container">
+                    </div>
+            </div>
+        </section>
+
+        <section id="view-brainly" class="view-panel">
+            <div class="module-header-row">
+                <h2>Brainly Knowledge Vault</h2>
+                <button id="add-folder-btn" class="create-folder-btn">+ Create Folder</button>
+            </div>
+            
+            <div class="brainly-layout-container">
+                <div id="ios-folder-grid" class="folder-nodes-grid"></div>
+                
+                <div class="notes-workspace-container">
+                    <div class="notes-header">
+                        <h3>Active Notes Portfolio</h3>
+                        <button id="brainly-instant-note" class="btn-small-action">+ Clear Note Asset</button>
+                    </div>
+                    <div id="brainly-notes-list" class="notes-list-view"></div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="centered-dashboard-footer">
+        <div class="dashboard-grid-container">
+            <div class="panel-card-container">
+                <h4>Next Up</h4>
+                <div id="panel-next-up-list" class="panel-scroll-area">
+                    </div>
+            </div>
+            <div class="panel-card-container">
+                <h4>Recent Activity</h4>
+                <div id="panel-recent-activity-list" class="panel-scroll-area">
+                    </div>
+            </div>
+        </div>
+    </footer>
+
+    <div id="global-trash-bin" class="trash-bin-zone">
+        <span class="trash-icon">🗑️</span>
+        <span class="trash-label">Drag here to delete</span>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
