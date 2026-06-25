@@ -9,159 +9,216 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
 </head>
-<body class="home-active">
+<body>
 
     <header class="navbar">
         <div class="nav-left">
-            <button id="lifeos-brand-btn" class="brand-toggle-btn">
-                <div class="atom-logo">
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-                        <circle cx="12" cy="12" r="2"></circle>
-                        <ellipse cx="12" cy=\"12\" rx=\"9\" ry=\"2.5\" transform=\"rotate(30 12 12)\"></ellipse>
-                        <ellipse cx=\"12\" cy=\"12\" rx=\"8\" ry=\"3\" transform=\"rotate(90 12 12)\"></ellipse>
-                    </svg>
-                </div>
-                <span class="app-title">LifeOS</span>
-            </button>
+            <div class="atom-logo">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.1">
+                    <circle cx="12" cy="12" r="2"></circle>
+                    <ellipse cx="12" cy="12" rx="9" ry="2.5" transform="rotate(30 12 12)"></ellipse>
+                    <ellipse cx="12" cy="12" rx="8" ry="3" transform="rotate(90 12 12)"></ellipse>
+                    <ellipse cx="12" cy="12" rx="7.5" ry="3.5" transform="rotate(150 12 12)"></ellipse>
+                </svg>
+            </div>
+            <span class="app-title" id="brand-home-toggle">LifeOS</span>
         </div>
-
         <div class="nav-center">
             <nav class="nav-links">
-                <button class="nav-item active" data-view="taskly">Taskly</button>
-                <button class="nav-item" data-view="boardly">Boardly</button>
-                <button class="nav-item" data-view="timely">Timely</button>
-                <button class="nav-item" data-view="brainly">Brainly</button>
+                <button class="nav-item active" data-target="taskly">Taskly</button>
+                <button class="nav-item" data-target="boardly">Boardly</button>
+                <button class="nav-item" data-target="timely">Timely</button>
+                <button class="nav-item" data-target="brainly">Brainly</button>
             </nav>
         </div>
-
         <div class="nav-right">
-            <span class="status-indicator">Local Client System Active</span>
+            <div class="system-status">
+                <span class="pulse-dot"></span>
+                <span class="status-text">Client Sandboxed Local System Static</span>
+            </div>
         </div>
     </header>
 
-    <main class="workspace-container">
+    <main class="app-container">
+        
+        <section class="workspace-pane view-active" id="view-home">
+            <div class="home-grid-layout-mesh">
+                <div class="widget-card clock-card">
+                    <div class="digital-time-display" id="homeClockDisplay">00:00:00</div>
+                    <div class="calendar-date-row" id="homeDateDisplay">Thursday, January 1, 2026</div>
+                </div>
+                
+                <div class="widget-card weather-card">
+                    <div class="weather-meta">
+                        <span class="weather-icon-cloud">⛅</span>
+                        <div class="temp-group">
+                            <span class="temp-degree" id="weatherTemp">14°C</span>
+                            <span class="location-tag">Kitsilano Beach</span>
+                        </div>
+                    </div>
+                    <p class="weather-phrase">High protein whole foods fuel clear execution structures today.</p>
+                </div>
 
-        <section id="view-taskly" class="view-panel active">
-            <div class="module-header-row">
+                <div class="widget-card system-metrics-card">
+                    <h4>Local Storage Architecture Pack</h4>
+                    <div class="progress-track">
+                        <div class="progress-bar-fill" style="width: 14%;"></div>
+                    </div>
+                    <div class="metrics-footer-labels">
+                        <span>Database Allocation: 14.2 KB</span>
+                        <span>Capacity: 100%</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="workspace-pane" id="view-taskly">
+            <div class="view-header">
                 <h2>Taskly Pipeline</h2>
             </div>
-            <div class="taskly-matrix">
-                <div class="taskly-column" id="taskly-todo">
+            <div class="kanban-taskly">
+                <div class="column" id="taskly-todo" data-tool="taskly" data-container="taskly-todo">
                     <div class="column-header">
                         <h3>To Do</h3>
-                        <button class="instant-create-btn" data-tool="taskly" data-container="taskly-todo">+</button>
+                        <button class="add-btn inline-taskly-add" data-container="taskly-todo">+</button>
                     </div>
-                    <div class="task-list-slot"></div>
+                    <div class="card-stack-slot"></div>
                 </div>
-                <div class="taskly-column" id="taskly-in-progress">
+                <div class="column" id="taskly-in-progress" data-tool="taskly" data-container="taskly-in-progress">
                     <div class="column-header">
                         <h3>In-Progress</h3>
-                        <button class="instant-create-btn" data-tool="taskly" data-container="taskly-in-progress">+</button>
+                        <button class="add-btn inline-taskly-add" data-container="taskly-in-progress">+</button>
                     </div>
-                    <div class="task-list-slot"></div>
+                    <div class="card-stack-slot"></div>
                 </div>
-                <div class="taskly-column" id="taskly-completed">
+                <div class="column" id="taskly-review" data-tool="taskly" data-container="taskly-review">
+                    <div class="column-header">
+                        <h3>Review</h3>
+                        <button class="add-btn inline-taskly-add" data-container="taskly-review">+</button>
+                    </div>
+                    <div class="card-stack-slot"></div>
+                </div>
+                <div class="column" id="taskly-completed" data-tool="taskly" data-container="taskly-completed">
                     <div class="column-header">
                         <h3>Completed</h3>
-                        <button class="instant-create-btn" data-tool="taskly" data-container="taskly-completed">+</button>
+                        <button class="add-btn inline-taskly-add" data-container="taskly-completed">+</button>
                     </div>
-                    <div class="task-list-slot"></div>
+                    <div class="card-stack-slot"></div>
                 </div>
             </div>
         </section>
 
-        <section id="view-boardly" class="view-panel">
-            <div class="module-header-row">
-                <div class="boardly-nav-left">
-                    <h2>Boardly Whiteboard</h2>
-                    <div class="tabs-wrapper">
-                        <div class="tabs" id="boardly-tabs-row"></div>
-                    </div>
-                    <button id="add-board-tab-btn" class="add-tab-inline-btn">+ Tab</button>
+        <section class="workspace-pane" id="view-boardly">
+            <div class="view-header boardly-header-mesh">
+                <div class="boardly-meta-left">
+                    <h2>Boardly</h2>
+                    <div class="horizontal-tabs-scroll-layer" id="boardlyTabsContainer"></div>
+                    <button class="action-btn secondary-thin" id="btnCreateBoardTab">+ Tab</button>
                 </div>
+                <div class="boardly-spawning-hub">
+                    <button class="action-btn spawn-node-btn color-goal" data-spawn-type="goal">+ Goal</button>
+                    <button class="action-btn spawn-node-btn color-task" data-spawn-type="task">+ Task</button>
+                    <button class="action-btn spawn-node-btn color-note" data-spawn-type="note">+ Note</button>
+                </div>
+            </div>
+            <div class="kanban-boardly" id="boardlySpatialCanvas"></div>
+        </section>
+
+        <section class="workspace-pane" id="view-timely">
+            <div class="view-header timely-header-mesh">
+                <h2>Timely</h2>
+                <div class="timely-mode-toggles">
+                    <button class="toggle-btn active" id="timelyToggleScheduling">Scheduling Mode</button>
+                    <button class="toggle-btn" id="timelyTogglePlanning">Planning Mode</button>
+                </div>
+                <div class="timely-subtab-navigation" id="timelySubTabsContainer"></div>
             </div>
             
-            <main id="board" class="boardly-spatial-canvas"></main>
-
-            <div class="boardly-floating-actions">
-                <button class="spawn-card-btn color-goal" data-card-type="goal"><span class="icon">+</span> Goal</button>
-                <button class="spawn-card-btn color-task" data-card-type="task"><span class="icon">+</span> Task</button>
-                <button class="spawn-card-btn color-note" data-card-type="note"><span class="icon">+</span> Note</button>
+            <div class="timely-rendering-workspace-anchor" id="timelyWorkspaceView">
+                <div id="timely-daily-container" class="timely-matrix-layout"></div>
+                <div id="timely-weekly-container" class="timely-matrix-layout"></div>
+                <div id="timely-monthly-container" class="timely-matrix-layout"></div>
+                <div id="timely-fallback-container" class="timely-matrix-layout"></div>
             </div>
         </section>
 
-        <section id="view-timely" class="view-panel">
-            <div class="module-header-row">
-                <h2>Timely Planner</h2>
-                <div class="timely-view-selector">
-                    <button class="timely-sub-btn active" data-subview="daily">Daily</button>
-                    <button class="timely-sub-btn" data-subview="weekly">Weekly</button>
-                    <button class="timely-sub-btn" data-subview="monthly">Monthly</button>
-                </div>
+        <section class="workspace-pane" id="view-brainly">
+            <div class="view-header brainly-header-mesh">
+                <h2>Brainly Note Vault</h2>
+                <button class="action-btn primary" id="btnBrainlyCreateFolder">+ Create Folder</button>
             </div>
-
-            <div id="timely-daily-view" class="timely-frame active">
-                <div class="hourly-time-grid">
+            <div class="brainly-split-canvas-layout">
+                <div class="folders-dock" id="brainlyFolderGridSystem"></div>
+                <div class="notes-workspace-sheet">
+                    <div class="sheet-inner-header">
+                        <h3 id="brainlyCurrentFolderLabel">All Floating Notes</h3>
+                        <button class="action-btn secondary-thin" id="btnBrainlyAddNote">+ Clear Note Asset</button>
                     </div>
-            </div>
-
-            <div id="timely-weekly-view" class="timely-frame">
-                <div class="weekly-cadence-grid">
-                    <div class="cadence-slot" data-cadence="morning"><h3>Morning</h3><div class="slot-bucket"></div></div>
-                    <div class="cadence-slot" data-cadence="noon"><h3>Noon</h3><div class="slot-bucket"></div></div>
-                    <div class="cadence-slot" data-cadence="afternoon"><h3>Afternoon</h3><div class="slot-bucket"></div></div>
-                    <div class="cadence-slot" data-cadence="evening"><h3>Evening</h3><div class="slot-bucket"></div></div>
-                    <div class="cadence-slot" data-cadence="night"><h3>Night</h3><div class="slot-bucket"></div></div>
-                </div>
-            </div>
-
-            <div id="timely-monthly-view" class="timely-frame">
-                <div class="monthly-matrix-grid" id="monthly-grid-container">
-                    </div>
-            </div>
-        </section>
-
-        <section id="view-brainly" class="view-panel">
-            <div class="module-header-row">
-                <h2>Brainly Knowledge Vault</h2>
-                <button id="add-folder-btn" class="create-folder-btn">+ Create Folder</button>
-            </div>
-            
-            <div class="brainly-layout-container">
-                <div id="ios-folder-grid" class="folder-nodes-grid"></div>
-                
-                <div class="notes-workspace-container">
-                    <div class="notes-header">
-                        <h3>Active Notes Portfolio</h3>
-                        <button id="brainly-instant-note" class="btn-small-action">+ Clear Note Asset</button>
-                    </div>
-                    <div id="brainly-notes-list" class="notes-list-view"></div>
+                    <div class="notes-grid-layout" id="brainlyNotesGridSlot"></div>
                 </div>
             </div>
         </section>
 
     </main>
 
-    <footer class="centered-dashboard-footer">
-        <div class="dashboard-grid-container">
-            <div class="panel-card-container">
-                <h4>Next Up</h4>
-                <div id="panel-next-up-list" class="panel-scroll-area">
-                    </div>
-            </div>
-            <div class="panel-card-container">
-                <h4>Recent Activity</h4>
-                <div id="panel-recent-activity-list" class="panel-scroll-area">
-                    </div>
+    <aside class="universal-sidebar-container">
+        <div class="sidebar-header">
+            <h3>Universal Board</h3>
+            <button class="add-btn" id="universalSidebarAddCard">+</button>
+        </div>
+        <div class="sidebar-scroll-wrapper drop-zone" id="universalSidebarDropSlot" data-tool="universal" data-container="universal-inbox"></div>
+        <div class="sidebar-footer-trash-mesh drop-zone" id="globalTrashZoneDropSlot">
+            <div class="trash-inner-content">
+                <span class="trash-icon">🗑️</span>
+                <p>Drag here to delete</p>
             </div>
         </div>
-    </footer>
+    </aside>
 
-    <div id="global-trash-bin" class="trash-bin-zone">
-        <span class="trash-icon">🗑️</span>
-        <span class="trash-label">Drag here to delete</span>
+    <div class="assistant-floating-control-hub" id="aiAssistantHubPanel">
+        <div class="assistant-terminal-header">
+            <div class="branding-group">
+                <span class="sparkle-icon">✨</span>
+                <h4>Local Sandbox Context Engine</h4>
+            </div>
+            <button class="terminal-minimize-btn" id="aiHubMinimizeToggle">▼</button>
+        </div>
+        <div class="assistant-terminal-viewport" id="aiTerminalLogDisplay">
+            <p class="system-msg">Local pipeline initialized. Accessing your physical indices, thought structures, and spatial parameters securely inside memory buffer blocks.</p>
+        </div>
+        <div class="assistant-terminal-input-row">
+            <input type="text" id="aiHubTextInput" placeholder="Coordinate workflow strategy guidelines..." autocomplete="off">
+            <div class="terminal-action-buttons-cluster">
+                <button class="assistant-icon-btn voice-btn" id="assistantVoiceToggle" title="Toggle audio capture channels">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"></path>
+                        <path d="M19 10v2a7 7 0 0 1-14 0v-2"></path>
+                        <line x1="12" y1="19" x2="12" y2="22"></line>
+                    </svg>
+                </button>
+                <button class="assistant-icon-btn submit-btn" id="assistantSubmit" title="Execute Pipeline">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="22" y1="2" x2="11" y2="13"></line>
+                        <polygon points="22 2 15 22 11 13 2 9 22 2\"></polygon>
+                    </svg>
+                </button>
+            </div>
+        </div>
     </div>
 
-    <script src="app.js"></script>
+    <div class="modal-overlay" id="cardModal">
+        <div class="modal-content">
+            <h3>Modify Item Elements</h3>
+            <input type="text" id=\"modalCardTitle\" placeholder=\"Title\">
+            <textarea id=\"modalCardDesc\" rows=\"4\" placeholder=\"Description / Markdown Segment\"></textarea>
+            <input type=\"hidden\" id=\"modalCardId\">
+            <div class=\"modal-actions-wrapper\">
+                <button class=\"action-btn secondary-thin\" id=\"btnModalClosePortal\">Cancel</button>
+                <button class=\"action-btn primary\" id=\"btnModalCommitSave\">Save Element</button>
+            </div>
+        </div>
+    </div>
+
+    <script src=\"app.js\"></script>
 </body>
 </html>
